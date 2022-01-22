@@ -17,6 +17,11 @@ interface ICurrencyToProps {
 	rate: number;
 }
 
+export interface ICurNamesToProps {
+	initials: string;
+	fullName: string;
+}
+
 const Container: FC = () => {
 
 	const [currenciesNames, setCurrencies] = useState<ICurrencyName>({});
@@ -24,23 +29,35 @@ const Container: FC = () => {
 	const [activeCurrencyName, setActiveCurrencyName] = useState<string>('usd')
 	const [activeCurrencyCount, setActiveCurrencyCount] = useState<number>(0)
 	const [currenciesToProps, setCurrenciesToProps] = useState<ICurrencyToProps[]>([])
+	const [curNamesToProps, setCurNamesToProps] = useState<ICurNamesToProps[]>([])
+	const [isListActive, setIsListActive] = React.useState<boolean>(false);
 
 	useEffect(() => {
 		const getCurrenciesNames = async () => {
 			try {
 				const list = await axios.get<ICurrencyName>('https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies.min.json')
 				setCurrencies(list.data)
+				const curNames: ICurNamesToProps[] = []
+				for (let key in list.data) {
+					if (key.length < 4 && key !== 'ada') {
+						curNames.push({ initials: key, fullName: list.data[key] })
+
+					}
+				}
+				setCurNamesToProps(curNames)
 			} catch (error) {
 				alert(error)
 			}
 		}
+
 		getCurrenciesNames()
+
 	}, []);
 
 	useEffect(() => {
 		if (activeCurrencyName !== '') {
 			const getCurrenciesRates = async (curName: string) => {
-				console.log(activeCurrencyName);
+
 
 				try {
 					const list = await axios.get(`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${curName}.json`)
@@ -58,24 +75,14 @@ const Container: FC = () => {
 
 	useEffect(() => {
 		const currencies: Array<ICurrencyToProps> = [];
-		// if (Object.keys(currenciesRates).length === 0) {
-		// 	for (let key in currenciesNames) {
-		// 		if (key.length < 4 && key !== 'ada') {
-		// 			currencies.push({ initials: key, name: currenciesNames[key], rate: 0 })
-		// 		}
-
-		// 	}
-		// } else {
-		// console.log(activeCurrencyCount);
-
 		for (let key in currenciesNames) {
 			if (key.length < 4 && key !== 'ada') {
-				// console.log(currenciesRates[key] ? currenciesRates[key] * activeCurrencyCount : 0);
-
-				currencies.push({ initials: key, name: currenciesNames[key], rate: currenciesRates[key] ? currenciesRates[key] * activeCurrencyCount : 0 })
+				currencies.push({
+					initials: key, name: currenciesNames[key],
+					rate: currenciesRates[key] ? currenciesRates[key] * activeCurrencyCount : 0
+				})
 			}
 		}
-		// }
 		setCurrenciesToProps(currencies)
 
 	}, [currenciesRates, currenciesNames, activeCurrencyCount]);
@@ -85,21 +92,28 @@ const Container: FC = () => {
 
 
 	const currencies: Array<ICurrencyToProps> = [];
-
+	const isListActiveHandler = () => {
+		if (isListActive) {
+			setIsListActive(false)
+		}
+	}
 
 	return (
-		<div className='container'>
-			<div className="inputs">
-				<Inputs initials={activeCurrencyName} setActiveName={setActiveCurrencyName}
-					count={activeCurrencyCount} setAtiveCount={setActiveCurrencyCount}
-				/>
-			</div>
-			<div className="currenciesRatesContainer">
-				{currenciesToProps.map((cur, index) => {
-					return <CurrencyRate key={index} initials={cur.initials} name={cur.name} rate={cur.rate} />
-				})}
-			</div>
+		<div onClick={isListActiveHandler} className="allWindow">
+			<div onClick={isListActiveHandler} className='container'>
+				<div className="inputs">
+					<Inputs initials={activeCurrencyName} setActiveName={setActiveCurrencyName}
+						count={activeCurrencyCount} setAtiveCount={setActiveCurrencyCount}
+						currenciesNames={curNamesToProps} isListActive={isListActive} setIsListActive={setIsListActive}
+					/>
+				</div>
+				<div className="currenciesRatesContainer">
+					{currenciesToProps.map((cur, index) => {
+						return <CurrencyRate key={index} initials={cur.initials} name={cur.name} rate={cur.rate} />
+					})}
+				</div>
 
+			</div>
 		</div>
 	);
 };

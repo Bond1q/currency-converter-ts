@@ -1,3 +1,7 @@
+.allWindow {
+	width: 100%;
+}
+
 .container {
 	margin: 0 auto;
 	width: 900px;
@@ -16,18 +20,18 @@
 
 		.form {
 			display: flex;
-			// justify-content: space-between;
-			// width: 550px;
 			justify-content: center;
 			margin: 0 auto;
+			align-items: flex-end;
 
 			input {
 				width: 210px;
 				padding: 5px 10px;
-				font-size: 22px;
+				font-size: 24px;
 				border: none;
 				border-bottom: 1px solid black;
 				text-align: right;
+				// font-weight: 600;
 
 			}
 
@@ -36,24 +40,187 @@
 				position: relative;
 
 				.initials {
+					cursor: pointer;
 
 					input {
 						text-align: left;
 						width: 90px;
+						text-transform: uppercase;
+						cursor: pointer;
+
+					}
+
+					.curName {
+						text-align: left;
+						width: 90px;
+						text-transform: uppercase;
+						border-bottom: 1px solid black;
+						font-size: 22px;
+						padding-bottom: 5px;
+						padding-left: 1px;
 					}
 
 					.flag {
 						position: absolute;
-						top: 7px;
-						left: 70px;
+						top: 0px;
+						left: 55px;
 
 						img {
-							width: 30px;
+							width: 32px;
 							min-height: 15px;
+							box-shadow: 0px 0px 1px 1px rgba(34, 60, 80, 0.2);
+
 						}
 					}
 				}
+
+
+				.list {
+					z-index: 100;
+					display: block;
+					opacity: 1;
+					transition: 400ms;
+					position: absolute;
+					background: rgb(255, 255, 255);
+					box-shadow: 0px 10px 15px 10px rgba(34, 60, 80, 0.2);
+					max-height: 300px;
+					overflow-y: scroll;
+					width: 336px;
+					right: 0px;
+					top: 28px;
+					animation-name: slideDown;
+					animation-timing-function: ease-out;
+					animation-duration: 0.4s;
+					animation-iteration-count: 1;
+					animation-fill-mode: forwards;
+					pointer-events: all;
+
+					@keyframes slideDown {
+						0% {
+							transform: translateY(-10%);
+							opacity: 0;
+						}
+
+						100% {
+							transform: translateY(0%);
+							// display: none;
+							opacity: 1;
+						}
+					}
+
+					.findCurInList {
+						text-align: center;
+						padding-top: 10px;
+						position: relative;
+
+						&::before {
+							content: "";
+							background-image: url(../img/search.png);
+							background-size: 24px;
+							background-repeat: no-repeat;
+							width: 24px;
+							height: 24px;
+							z-index: 2000;
+							position: absolute;
+							top: 15px;
+							left: 10px;
+						}
+
+						// width: calc(100% - 20px);
+						input {
+							width: 295px;
+							font-size: 20px;
+							text-align: center;
+							border-bottom: 1px solid rgb(92, 92, 92);
+						}
+					}
+
+					.listElem {
+						&:first-child {
+							padding-top: 5px;
+						}
+
+						display: flex;
+						align-items: center;
+						padding: 0 10px;
+						height: 50px;
+						cursor: pointer;
+
+						.smallRow {
+							display: flex;
+							width: 85px;
+							align-items: center;
+
+							.initials {
+								text-transform: uppercase;
+								margin-right: 20px;
+								font-weight: 600;
+								font-size: 16px;
+							}
+
+							img {
+								width: 30px;
+								margin-right: 8px;
+								box-shadow: 0px 0px 1px 1px rgba(34, 60, 80, 0.2);
+
+							}
+						}
+
+						.fullName {
+							font-weight: 500;
+
+							font-size: 16px;
+							// border-left: 1px solid black;
+							// height: 50px;
+						}
+
+
+						&:hover {
+							background: rgb(231, 231, 231);
+						}
+
+
+					}
+				}
+
+
+				.noDisplatList {
+					// display: none;
+					// cursor: ;
+					transition: 400ms;
+					animation-name: slideUp;
+					animation-timing-function: ease-out;
+					animation-duration: 0.3s;
+					animation-iteration-count: 1;
+					animation-fill-mode: forwards;
+					pointer-events: all;
+					pointer-events: none;
+
+					@keyframes slideUp {
+						0% {
+							transform: translateY(0);
+							opacity: 1;
+						}
+
+						75% {
+							opacity: 0;
+
+						}
+
+						100% {
+							transform: translateY(-8%);
+							// display: none;
+							opacity: 0;
+						}
+					}
+
+				}
+
+
 			}
+
+
+
 
 			.flag {
 				position: absolute;
