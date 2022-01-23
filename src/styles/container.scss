@@ -14,6 +14,14 @@
 	margin-bottom: 50px;
 	font-family: Arial, Helvetica, sans-serif !important;
 
+	@media only screen and (max-width : 500px) {
+		width: 100%;
+		margin-top: 30px;
+		border-radius: 0px;
+		min-height: 200px;
+
+	}
+
 	// height: 500px;
 	.inputs {
 		padding: 0 40px;
@@ -32,8 +40,12 @@
 				border: none;
 				border-bottom: 1px solid black;
 				text-align: right;
-				// font-weight: 600;
 
+				@media only screen and (max-width : 500px) {
+					font-size: 18px;
+					text-align: center;
+
+				}
 			}
 
 			.currency {
@@ -59,6 +71,11 @@
 						font-size: 22px;
 						padding-bottom: 5px;
 						padding-left: 1px;
+
+						@media only screen and (max-width : 500px) {
+							font-size: 18px;
+
+						}
 					}
 
 					.flag {
@@ -66,11 +83,16 @@
 						top: 0px;
 						left: 55px;
 
+
 						img {
 							width: 32px;
 							min-height: 15px;
 							box-shadow: 0px 0px 1px 1px rgba(34, 60, 80, 0.2);
 
+							@media only screen and (max-width : 500px) {
+								width: 28px;
+
+							}
 						}
 					}
 				}
@@ -247,10 +269,14 @@
 	.currenciesRatesContainer {
 		.findInRatesContainer {
 			text-align: right;
-			margin-top: 30px;
-			margin-right: 30px;
-			margin-bottom: 20px;
+			margin: 30px 30px 20px 0;
 			position: relative;
+
+			@media only screen and (max-width : 500px) {
+				font-size: 18px;
+				margin-top: 50px;
+
+			}
 
 			&::before {
 				content: "";
@@ -259,7 +285,7 @@
 				background-repeat: no-repeat;
 				width: 24px;
 				height: 24px;
-				z-index: 2000;
+				z-index: 20;
 				position: absolute;
 				top: -5px;
 				right: 0px;
@@ -292,7 +318,9 @@
 			padding: 0px 20px;
 			height: 75px;
 
-
+			@media only screen and (max-width : 500px) {
+				margin: 0;
+			}
 
 			// &:hover {
 			// 	background: rgb(241, 241, 241);
@@ -308,6 +336,12 @@
 				color: rgb(26, 26, 26);
 				font-size: 18px;
 
+				@media only screen and (max-width : 500px) {
+					font-size: 16px;
+					min-width: 80px;
+
+				}
+
 				.flag {
 					height: 100%;
 					margin-right: 10px;
@@ -316,7 +350,11 @@
 						min-height: 32px;
 						box-shadow: 0px 0px 1px 1px rgba(34, 60, 80, 0.2);
 						width: 48px;
-						// height: 32px;
+
+						@media only screen and (max-width : 500px) {
+							width: 40px;
+							min-height: 25px;
+						}
 					}
 				}
 			}
@@ -332,6 +370,10 @@
 					font-size: 18px;
 					text-transform: capitalize;
 
+					@media only screen and (max-width : 500px) {
+						font-size: 10px;
+						max-width: 20%;
+					}
 				}
 
 				.rate {
@@ -340,6 +382,10 @@
 					font-weight: 500;
 					color: rgb(34, 34, 34);
 
+					@media only screen and (max-width : 500px) {
+						font-size: 18px;
+
+					}
 				}
 			}
 
