@@ -1,16 +1,12 @@
 import React, { FC } from 'react';
 import { numberWithSpaces } from '../assets/numberWuthSpace';
-interface ICurrencyRateProps {
-	initials: string;
-	name: string;
-	rate: number;
-}
+import { ICurrencyRateProps } from '../assets/constants'
 
+const CurrencyRate: FC<ICurrencyRateProps> = ({ initials, name, rate, isVisible }) => {
 
-const CurrencyRate: FC<ICurrencyRateProps> = ({ initials, name, rate }) => {
 	const imgUrl: string = `flags/${initials}.png`
 	return (
-		<div className='currencyRate' >
+		<div className={isVisible ? 'currencyRate' : 'noDisplay'} >
 			<div className="initials">
 				<div className="flag">
 
@@ -26,4 +22,4 @@ const CurrencyRate: FC<ICurrencyRateProps> = ({ initials, name, rate }) => {
 	);
 };
 
-export default CurrencyRate;
+export default React.memo(CurrencyRate);

@@ -3,27 +3,9 @@ import React, { FC, useState, useEffect } from 'react';
 import '../styles/container.scss'
 import CurrencyRate from './CurrencyRate';
 import Inputs from './Inputs';
-
-interface ICurrencyName {
-	[key: string]: string;
-}
-interface ICurrencyRate {
-	[key: string]: number;
-}
-
-interface ICurrencyToProps {
-	initials: string;
-	name: string;
-	rate: number;
-}
-
-export interface ICurNamesToProps {
-	initials: string;
-	fullName: string;
-}
-
+import { ICurrencyName, ICurrencyRate, ICurrencyToProps, ICurNamesToProps } from '../assets/constants'
 const Container: FC = () => {
-
+	const oldCurrencies: string[] = ['ada', 'zmk', 'byr', 'ltl', 'lvl'];
 	const [currenciesNames, setCurrencies] = useState<ICurrencyName>({});
 	const [currenciesRates, setCurrenciesRates] = useState<ICurrencyRate>({});
 	const [activeCurrencyName, setActiveCurrencyName] = useState<string>('usd')
@@ -31,7 +13,7 @@ const Container: FC = () => {
 	const [currenciesToProps, setCurrenciesToProps] = useState<ICurrencyToProps[]>([])
 	const [curNamesToProps, setCurNamesToProps] = useState<ICurNamesToProps[]>([])
 	const [isListActive, setIsListActive] = React.useState<boolean>(false);
-
+	const [containerInput, setContainerInput] = useState<string>('')
 	useEffect(() => {
 		const getCurrenciesNames = async () => {
 			try {
@@ -76,10 +58,14 @@ const Container: FC = () => {
 	useEffect(() => {
 		const currencies: Array<ICurrencyToProps> = [];
 		for (let key in currenciesNames) {
-			if (key.length < 4 && key !== 'ada') {
+			const isVisible: boolean = (containerInput.trim() != '' ? (key.toLowerCase().indexOf(containerInput.toLowerCase()) != -1
+				|| currenciesNames[key].toLowerCase().indexOf(containerInput.toLowerCase()) != -1) : true
+			)
+			if (key.length < 4 && !oldCurrencies.includes(key)) {
 				currencies.push({
 					initials: key, name: currenciesNames[key],
-					rate: currenciesRates[key] ? currenciesRates[key] * activeCurrencyCount : 0
+					rate: currenciesRates[key] ? currenciesRates[key] * activeCurrencyCount : 0,
+					isVisible: isVisible
 				})
 			}
 		}
@@ -91,12 +77,30 @@ const Container: FC = () => {
 
 
 
-	const currencies: Array<ICurrencyToProps> = [];
 	const isListActiveHandler = () => {
 		if (isListActive) {
 			setIsListActive(false)
 		}
 	}
+
+	const containerInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const currencies: Array<ICurrencyToProps> = [];
+		setCurrenciesToProps(currenciesToProps.map(cur => {
+			if (cur.initials.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1
+				|| cur.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1
+			) {
+				cur.isVisible = true;
+				return cur
+			} else {
+				cur.isVisible = false;
+				return cur
+			}
+		}
+
+		))
+		setContainerInput(e.target.value)
+	}
+
 
 	return (
 		<div onClick={isListActiveHandler} className="allWindow">
@@ -108,8 +112,15 @@ const Container: FC = () => {
 					/>
 				</div>
 				<div className="currenciesRatesContainer">
+					<div className="findInRatesContainer">
+						<input placeholder='Find currency'
+							onChange={containerInputHandler} value={containerInput} type="text" />
+
+					</div>
 					{currenciesToProps.map((cur, index) => {
-						return <CurrencyRate key={index} initials={cur.initials} name={cur.name} rate={cur.rate} />
+						return <CurrencyRate key={index} initials={cur.initials} name={cur.name} rate={cur.rate}
+							isVisible={cur.isVisible}
+						/>
 					})}
 				</div>
 
@@ -118,4 +129,4 @@ const Container: FC = () => {
 	);
 };
 
-export default Container;
+export default React.memo(Container);

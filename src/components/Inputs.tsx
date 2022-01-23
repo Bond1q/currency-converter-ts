@@ -1,22 +1,12 @@
 import React, { FC } from 'react';
 import { numberWithSpaces } from '../assets/numberWuthSpace';
-import { ICurNamesToProps } from './Container';
+import { ICurNamesToProps, IInputs } from '../assets/constants';
 import InputListElem from './InputListElem';
 
-interface IInputs {
-	initials: string;
-	count: number;
-	isListActive: boolean;
-	setIsListActive(isActive: boolean): void
-	setActiveName(name: string): void;
-	setAtiveCount(count: number): void;
-	currenciesNames: ICurNamesToProps[];
-}
-
 const Inputs: FC<IInputs> = (props) => {
-
+	const imgUrl: string = `flags/${props.initials}.png`
 	const [curNameDiv, setCurNameDiv] = React.useState<string>(props.initials)
-	const [curRateInput, setCurRateInput] = React.useState<string>(props.count.toString())
+	const [curRateInput, setCurRateInput] = React.useState<string>('')
 	const [listInput, setListInput] = React.useState<string>('')
 	const [currenciesNames, setCurrenciesNames] = React.useState<ICurNamesToProps[]>(props.currenciesNames)
 
@@ -27,21 +17,13 @@ const Inputs: FC<IInputs> = (props) => {
 	const changeRateInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const valStr: string = (e.target.value.replace(/\s/g, ""))
 		const valNum: number = +(valStr)
-		if (!isNaN(valNum)) {
-			if (valStr[valStr.length - 1] === '.') {
-				setCurRateInput(valNum.toString() + '.')
+		setCurRateInput(valStr)
 
-			} else {
-				setCurRateInput(valNum.toString())
-			}
-		}
-
-
-		if (valNum > 0) {
+		if (valNum >= 0) {
 			props.setAtiveCount(valNum)
 		}
 	}
-	const imgUrl: string = `flags/${props.initials}.png`
+
 	const findCurInListHandler = (e: React.MouseEvent) => {
 		e.stopPropagation()
 	}
@@ -56,11 +38,13 @@ const Inputs: FC<IInputs> = (props) => {
 		setCurNameDiv(props.initials)
 		setCurrenciesNames(props.currenciesNames)
 	}, [props.initials, props.currenciesNames]);
+
 	return (
 		<div>
 			<div className="form">
 				<div className="countInput">
-					<input onChange={changeRateInputHandler} value={numberWithSpaces(curRateInput)} type="text" />
+					<input placeholder='Enter the number'
+						onChange={changeRateInputHandler} value={numberWithSpaces(curRateInput)} type="text" />
 				</div>
 				<div className="currency">
 					<div onClick={() => props.setIsListActive(!props.isListActive)} className="initials">
