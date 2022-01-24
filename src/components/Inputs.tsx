@@ -9,7 +9,7 @@ const Inputs: FC<IInputs> = (props) => {
 	const [curRateInput, setCurRateInput] = React.useState<string>('')
 	const [listInput, setListInput] = React.useState<string>('')
 	const [currenciesNames, setCurrenciesNames] = React.useState<ICurNamesToProps[]>(props.currenciesNames)
-
+	const inputRef = React.useRef<HTMLInputElement>(null);
 	const changeListInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setListInput(e.target.value)
 		setCurrenciesNames(props.currenciesNames.filter(elem => elem.fullName.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 || elem.initials.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1))
@@ -39,6 +39,10 @@ const Inputs: FC<IInputs> = (props) => {
 		setCurrenciesNames(props.currenciesNames)
 	}, [props.initials, props.currenciesNames]);
 
+	const setIsListActiveHandler = () => {
+		props.setIsListActive(!props.isListActive)
+		inputRef.current?.focus()
+	}
 	return (
 		<div>
 			<div className="form">
@@ -47,7 +51,7 @@ const Inputs: FC<IInputs> = (props) => {
 						onChange={changeRateInputHandler} value={numberWithSpaces(curRateInput)} type="text" />
 				</div>
 				<div className="currency">
-					<div onClick={() => props.setIsListActive(!props.isListActive)} className="initials">
+					<div onClick={setIsListActiveHandler} className="initials">
 						<div className="curName">{curNameDiv}</div>
 						<div className="flag">
 							<img src={imgUrl} alt="" />
@@ -56,6 +60,7 @@ const Inputs: FC<IInputs> = (props) => {
 					<div className={props.isListActive ? "list" : "list noDisplatList"}>
 						<div onClick={findCurInListHandler} className="findCurInList">
 							<input placeholder='Find currency'
+								ref={inputRef}
 								onChange={changeListInputHandler} value={listInput}
 								onBlur={onBlurFindList}
 								type="text" />

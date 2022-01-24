@@ -134,7 +134,9 @@
 					.findCurInList {
 						text-align: center;
 						padding-top: 10px;
-						position: relative;
+						position: sticky;
+						background: #ffff;
+						top: 0;
 
 						&::before {
 							content: "";

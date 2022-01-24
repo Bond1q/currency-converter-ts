@@ -21,7 +21,7 @@ const Container: FC = () => {
 				setCurrencies(list.data)
 				const curNames: ICurNamesToProps[] = []
 				for (let key in list.data) {
-					if (key.length < 4 && key !== 'ada') {
+					if (key.length < 4 && !oldCurrencies.includes(key)) {
 						curNames.push({ initials: key, fullName: list.data[key] })
 
 					}
