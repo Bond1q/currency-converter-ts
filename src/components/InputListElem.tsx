@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { IInputListElem } from '../assets/constants'
 
 const InputListElem: FC<IInputListElem> = ({ fullName, initials, setActiveName }) => {
-	const imgUrl: string = `currency-converter-ts/flags/${initials}.png`
+	const imgUrl: string = `flags/${initials}.png`
 	return (
 		<div className='listElem' onClick={() => setActiveName(initials.toLowerCase())}>
 			<div className="smallRow">
