@@ -41,6 +41,12 @@
 				border-bottom: 1px solid black;
 				text-align: right;
 
+				&:focus {
+					width: 210px;
+					border: none;
+					border-bottom: 1px solid black;
+				}
+
 				@media only screen and (max-width : 500px) {
 					font-size: 18px;
 					text-align: center;
@@ -157,6 +163,10 @@
 							font-size: 20px;
 							text-align: center;
 							border-bottom: 1px solid rgb(92, 92, 92);
+
+							&:focus {
+								border-bottom: 1px solid rgb(92, 92, 92);
+							}
 						}
 					}
 
