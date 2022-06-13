@@ -5,7 +5,14 @@ import CurrencyRate from './CurrencyRate';
 import Inputs from './Inputs';
 import { ICurrencyName, ICurrencyRate, ICurrencyToProps, ICurNamesToProps } from '../assets/constants'
 const Container: FC = () => {
-	const oldCurrencies: string[] = ['ada', 'zmk', 'byr', 'ltl', 'lvl'];
+	const oldCurrencies: string[] = [
+		'ada', 'zmk', 'byr', 'ltl', 'lvl', 'amp', 'ar',
+		'axs', 'bat', 'bsv', 'btg', 'chz', 'cro', 'crv', 'cvx', 'dai', 'dcr', 'dfi', 'dot',
+		'enj', 'eos', 'fei', 'fil', 'ftm', 'ftt',
+		'gno', 'grt', 'gt', 'hnt', 'hot', 'ht', 'icp', 'inj', 'kcs', 'kda', 'knc', 'ksm', 'leo', 'lrc',
+		'neo', 'okb', 'one', 'qnt', 'sol', 'stx', 'ttt', 'uni', 'vet', 'xdc', 'xec', 'xem', 'xtz', 'zec', 'zil'
+	];
+
 	const [currenciesNames, setCurrencies] = useState<ICurrencyName>({});
 	const [currenciesRates, setCurrenciesRates] = useState<ICurrencyRate>({});
 	const [activeCurrencyName, setActiveCurrencyName] = useState<string>('usd')
